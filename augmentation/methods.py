@@ -7,16 +7,17 @@ import cv2
 import albumentations as A
 import imageio
 import imgaug as ia
+import imgaug.augmenters as iaa
 import os 
 
 def apply_dropout(input_path, output_path, percentages):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -36,10 +37,10 @@ def apply_gamma_correction(input_path, output_path, gammas):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -58,10 +59,10 @@ def apply_white_noise(input_path, output_path, sd):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -80,10 +81,10 @@ def apply_white_noise(input_path, output_path, sd):
 
      PROBLEM = "semantic_segmentation"
      ANNOTATION_MODE = "folders"
-     INPUT_PATH = input_path
+     INPUT_PATH = input_path + "/"
      GENERATION_MODE = "linear"
      OUTPUT_MODE = "folders"
-     OUTPUT_PATH= output_path
+     OUTPUT_PATH= output_path + "/"
      LABELS_EXTENSION = ".png"
 
      augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -99,10 +100,10 @@ def aug_blurring(input_path, output_path, blurr:list):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -121,10 +122,10 @@ def apply_elastic_deformation(input_path, output_path, alpha = 5, sigma = 0.05):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -142,10 +143,10 @@ def apply_flipping(input_path, output_path, flip):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -163,10 +164,10 @@ def apply_shearing(input_path, output_path, a = 0.5):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -182,10 +183,10 @@ def apply_sharpen(input_path, output_path):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -203,10 +204,10 @@ def apply_raise_satur(input_path, output_path, power):
 
     PROBLEM = "semantic_segmentation"
     ANNOTATION_MODE = "folders"
-    INPUT_PATH = input_path
+    INPUT_PATH = input_path + "/"
     GENERATION_MODE = "linear"
     OUTPUT_MODE = "folders"
-    OUTPUT_PATH= output_path
+    OUTPUT_PATH= output_path + "/"
     LABELS_EXTENSION = ".png"
 
     augmentor = createAugmentor(PROBLEM,ANNOTATION_MODE,OUTPUT_MODE,GENERATION_MODE,INPUT_PATH,{"outputPath":OUTPUT_PATH,"labelsExtension":LABELS_EXTENSION})
@@ -519,4 +520,38 @@ def zoom(zoom_amount, input_path, output_path, image_count):
   print("Zoom results were saved given directory.")
 
 
+def rotation(degree, input_path, output_path, image_count):
+  images = []
+  labels = []
 
+  for img_path in range(image_count):
+    img = imageio.imread(input_path + '/images/' + str(img_path) + '.png')
+    images.append(img) 
+
+    lbl = imageio.imread(input_path + '/labels/' + str(img_path) + '.png')
+    labels.append(lbl)
+  
+  seq = iaa.Sequential(
+      [
+
+          iaa.Rotate((degree)),
+
+      ]
+  )
+
+  images_aug = seq(images=images)
+  labels_aug = seq(images=labels)
+
+  path = os.path.join(output_path, 'images') 
+  os.mkdir(path) 
+
+  path = os.path.join(output_path, 'labels') 
+  os.mkdir(path)
+
+  for indx, i in enumerate(images_aug):
+      imageio.imwrite(output_path + '/images/'  + 'rotat'+ '_' + str(indx) + '.png', i)
+
+  for indx, i in enumerate(labels_aug):
+      imageio.imwrite(output_path + '/labels/'  + 'rotat'+ '_' + str(indx) + '.png', i)
+
+  print("Rotation results were saved given directory.")
