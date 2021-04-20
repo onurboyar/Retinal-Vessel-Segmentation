@@ -19,10 +19,10 @@ import gc
 
 from unet.attention_unet import AttentionUNet
 from unet.vanilla_unet import UNet
-from unet.utils.metrics import dice, mean_dice
-from unet.utils.preprocess import adjustData, pad, crop, threshold
-from unet.utils.file import get_dirs, set_order, saveResult_drive
-from unet.data.generators import trainGenerator, testGenerator, testGenerator2
+from utils.metrics import dice, mean_dice
+from utils.preprocess import adjustData, pad, crop, threshold
+from utils.file import get_dirs, set_order, saveResult_drive
+from data.generators import trainGenerator, testGenerator, testGenerator2
 
 
 dirs = get_dirs()
