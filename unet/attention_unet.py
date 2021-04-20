@@ -8,6 +8,8 @@ from keras.optimizers import SGD
 from keras.layers.core import Lambda
 import keras.backend as K
 
+from utils.metrics import dice_coef, jacard
+
 
 def up_and_concate(down_layer, layer):
 
