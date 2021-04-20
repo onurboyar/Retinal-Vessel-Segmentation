@@ -6,6 +6,11 @@ import cv2
 import matplotlib.pyplot as plt
 import pickle
 import time
+import logging
+
+logging.disable(logging.WARNING)
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
 import tensorflow as tf
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
@@ -105,6 +110,7 @@ def train_once(save_name, num_train, num_test, initial_model_path,\
 
     threshold(RESULT_PATH + '/' + save_name)
 
+    os.mkdir(RESULT_PATH + "/download")
     shutil.rmtree(RESULT_PATH + '/download', ignore_errors=False, onerror=None)
     os.mkdir(RESULT_PATH + '/download')
     set_order(RESULT_PATH + '/' + save_name, RESULT_PATH + '/download')
