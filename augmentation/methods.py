@@ -28,7 +28,7 @@ def apply_dropout(input_path, output_path, percentages):
         augmentor.addTransformer(transformer(dropout))
 
     augmentor.applyAugmentation()
-    print("Rotation results were saved given directory.")
+    print("Dropout results were saved given directory.")
 
 
 
@@ -51,7 +51,7 @@ def apply_gamma_correction(input_path, output_path, gammas):
         augmentor.addTransformer(transformer(gamma_t))
 
     augmentor.applyAugmentation()
-    print("Rotation results were saved given directory.")
+    print("Gamma correction results were saved given directory.")
 
 
 def apply_white_noise(input_path, output_path, sd):
@@ -73,7 +73,7 @@ def apply_white_noise(input_path, output_path, sd):
         augmentor.addTransformer(transformer(white_noise))
 
     augmentor.applyAugmentation()
-    print("Rotation results were saved given directory.")
+    print("White noise results were saved given directory.")
 
 
  def apply_eqhisto(input_path, output_path):
@@ -93,7 +93,7 @@ def apply_white_noise(input_path, output_path, sd):
      augmentor.addTransformer(transformer(equalize)) 
      augmentor.applyAugmentation()
 
-     print("equalize histogram results were saved given directory.")
+     print("Equalize histogram results were saved given directory.")
 
 def aug_blurring(input_path, output_path, blurr:list):
 
@@ -220,12 +220,12 @@ def apply_raise_satur(input_path, output_path, power):
     print("Raise saturation results were saved given directory.")
 
 
-def apply_jpeg_compression(input_path, output_path, degrees):
+def apply_jpeg_compression(input_path, output_path, degrees, image_count):
 
     images = []
     labels = []
 
-    for img_path in range(20):
+    for img_path in range(image_count):
         img = imageio.imread(input_path + 'images/' + str(img_path) + '.png')
         images.append(img)
 
@@ -295,3 +295,228 @@ def albumentation(output_folder_name, main_path, original_height, original_width
     cv2.imwrite(main_path +'/' + output_folder_name +'/labels/' + img, mask)
 
   print("Results are saved in output directory.")
+
+
+def shiftX(shift_amount, input_path, output_path, image_count):
+  images = []
+  labels = []
+
+  for img_path in range(image_count):
+    img = imageio.imread(input_path + '/images/' + str(img_path) + '.png')
+    images.append(img) 
+
+    lbl = imageio.imread(input_path + '/labels/' + str(img_path) + '.png')
+    labels.append(lbl)
+  
+  seq = iaa.Sequential(
+    [
+
+        iaa.TranslateX(px=(shift_amount))
+
+    ]
+  )
+
+  images_aug = seq(images=images)
+  labels_aug = seq(images=labels)
+
+  path = os.path.join(output_path, 'images') 
+  os.mkdir(path) 
+
+  path = os.path.join(output_path, 'labels') 
+  os.mkdir(path)
+
+  for indx, i in enumerate(images_aug):
+      imageio.imwrite(output_path + '/images/'  + 'shifted'+ '_' + str(indx) + '.png', i)
+
+  for indx, i in enumerate(labels_aug):
+      imageio.imwrite(output_path + '/labels/'  + 'shifted'+ '_' + str(indx) + '.png', i)
+
+  print("Shift results were saved given directory.")
+
+
+def shiftY(shift_amount, input_path, output_path, image_count):
+  images = []
+  labels = []
+
+  for img_path in range(image_count):
+    img = imageio.imread(input_path + '/images/' + str(img_path) + '.png')
+    images.append(img) 
+
+    lbl = imageio.imread(input_path + '/labels/' + str(img_path) + '.png')
+    labels.append(lbl)
+  
+  seq = iaa.Sequential(
+    [
+
+        iaa.TranslateY(px=(shift_amount))
+
+    ]
+  )
+
+  images_aug = seq(images=images)
+  labels_aug = seq(images=labels)
+
+  path = os.path.join(output_path, 'images') 
+  os.mkdir(path) 
+
+  path = os.path.join(output_path, 'labels') 
+  os.mkdir(path)
+
+  for indx, i in enumerate(images_aug):
+      imageio.imwrite(output_path + '/images/'  + 'shifted'+ '_' + str(indx) + '.png', i)
+
+  for indx, i in enumerate(labels_aug):
+      imageio.imwrite(output_path + '/labels/'  + 'shifted'+ '_' + str(indx) + '.png', i)
+
+  print("Shift results were saved given directory.")
+
+
+def contrast(severity, input_path, output_path, image_count):
+  images = []
+  labels = []
+
+  for img_path in range(image_count):
+    img = imageio.imread(input_path + '/images/' + str(img_path) + '.png')
+    images.append(img) 
+
+    lbl = imageio.imread(input_path + '/labels/' + str(img_path) + '.png')
+    labels.append(lbl)
+  
+  seq = iaa.Sequential(
+    [
+
+        iaa.imgcorruptlike.Contrast(severity=severity),
+
+    ]
+  )
+
+  images_aug = seq(images=images)
+
+  path = os.path.join(output_path, 'images') 
+  os.mkdir(path) 
+
+  path = os.path.join(output_path, 'labels') 
+  os.mkdir(path)
+
+  for indx, i in enumerate(images_aug):
+      imageio.imwrite(output_path + '/images/'  + 'contrast'+ '_' + str(indx) + '.png', i)
+
+  for indx, i in enumerate(labels):
+      imageio.imwrite(output_path + '/labels/'  + 'contrast'+ '_' + str(indx) + '.png', i)
+
+  print("Contrast results were saved given directory.")
+
+
+def shearX(shear_amount, input_path, output_path, image_count):
+  images = []
+  labels = []
+  ia.seed(1)
+  for img_path in range(image_count):
+    img = imageio.imread(input_path + '/images/' + str(img_path) + '.png')
+    images.append(img) 
+
+    lbl = imageio.imread(input_path + '/labels/' + str(img_path) + '.png')
+    labels.append(lbl)
+  
+  seq = iaa.Sequential(
+      [
+
+          iaa.ShearX((shear_amount)),
+
+      ]
+  )
+
+  images_aug = seq(images=images)
+  labels_aug = seq(images=labels)
+
+  path = os.path.join(output_path, 'images') 
+  os.mkdir(path) 
+
+  path = os.path.join(output_path, 'labels') 
+  os.mkdir(path)
+
+  for indx, i in enumerate(images_aug):
+      imageio.imwrite(output_path + '/images/'  + 'shear'+ '_' + str(indx) + '.png', i)
+
+  for indx, i in enumerate(labels_aug):
+      imageio.imwrite(output_path + '/labels/'  + 'shear'+ '_' + str(indx) + '.png', i)
+
+  print("Shear results were saved given directory.")
+
+
+def shearY(shear_amount, input_path, output_path, image_count):
+  images = []
+  labels = []
+  ia.seed(1)
+  for img_path in range(image_count):
+    img = imageio.imread(input_path + '/images/' + str(img_path) + '.png')
+    images.append(img) 
+
+    lbl = imageio.imread(input_path + '/labels/' + str(img_path) + '.png')
+    labels.append(lbl)
+  
+  seq = iaa.Sequential(
+      [
+
+          iaa.ShearY((shear_amount)),
+
+      ]
+  )
+
+  images_aug = seq(images=images)
+  labels_aug = seq(images=labels)
+
+  path = os.path.join(output_path, 'images') 
+  os.mkdir(path) 
+
+  path = os.path.join(output_path, 'labels') 
+  os.mkdir(path)
+
+  for indx, i in enumerate(images_aug):
+      imageio.imwrite(output_path + '/images/'  + 'shear'+ '_' + str(indx) + '.png', i)
+
+  for indx, i in enumerate(labels_aug):
+      imageio.imwrite(output_path + '/labels/'  + 'shear'+ '_' + str(indx) + '.png', i)
+
+  print("Shear results were saved given directory.")
+
+def zoom(zoom_amount, input_path, output_path, image_count):
+  images = []
+  labels = []
+  ia.seed(1)
+  for img_path in range(image_count):
+    img = imageio.imread(input_path + '/images/' + str(img_path) + '.png')
+    images.append(img) 
+
+    lbl = imageio.imread(input_path + '/labels/' + str(img_path) + '.png')
+    labels.append(lbl)
+  
+  seq = iaa.Sequential(
+      [
+
+          iaa.Affine(
+              scale={"x": (zoom_amount), "y": (zoom_amount)}
+          ),
+
+      ]
+  )
+
+  images_aug = seq(images=images)
+  labels_aug = seq(images=labels)
+
+  path = os.path.join(output_path, 'images') 
+  os.mkdir(path) 
+
+  path = os.path.join(output_path, 'labels') 
+  os.mkdir(path)
+
+  for indx, i in enumerate(images_aug):
+      imageio.imwrite(output_path + '/images/'  + 'zoom'+ '_' + str(indx) + '.png', i)
+
+  for indx, i in enumerate(labels_aug):
+      imageio.imwrite(output_path + '/labels/'  + 'zoom'+ '_' + str(indx) + '.png', i)
+
+  print("Zoom results were saved given directory.")
+
+
+
