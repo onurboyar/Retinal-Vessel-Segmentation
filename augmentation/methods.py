@@ -250,3 +250,48 @@ def apply_jpeg_compression(input_path, output_path, degrees):
 
   print("JPEG Compression results were saved given directory.")
 
+
+def albumentation(output_folder_name, main_path, original_height, original_width, input_path):
+
+  '''
+    - output_folder_name : you should give just the name of the output folder, it will be created by function
+    - main_path : the folder that output folder will be created and results will be saved
+    - input_path : the folder that includes images and labels in seperate folders
+  '''
+  
+  os.mkdir(main_path + '/'+ output_folder_name)
+  os.mkdir(main_path + '/'+ output_folder_name +'/images')
+  os.mkdir(main_path + '/'+ output_folder_name +'/labels')
+
+  for img in sorted(os.listdir(input_path + '/images')):
+
+    image = cv2.imread(input_path +'/images/' + img, 0)
+    mask  = cv2.imread(input_path +'/labels/' + img, 0)
+    
+    ##############################################################
+    aug = A.Compose([
+      A.OneOf([
+          A.RandomSizedCrop(min_max_height=(50, 101), height=original_height, width=original_width, p=0.5),
+          A.PadIfNeeded(min_height=original_height, min_width=original_width, p=0.5)
+      ], p=1),    
+      A.VerticalFlip(p=0.5),              
+      A.RandomRotate90(p=0.5),
+      A.OneOf([
+          A.ElasticTransform(alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03, p=0.5),
+          A.GridDistortion(p=0.5),
+          A.OpticalDistortion(distort_limit=2, shift_limit=0.5, p=1)                  
+          ], p=0.8),
+      A.CLAHE(p=0.8),
+      A.RandomBrightnessContrast(p=0.8),    
+      A.RandomGamma(p=0.8)])
+    ##############################################################
+
+    augmented = aug(image=image, mask=mask)
+
+    image = augmented['image']
+    mask = augmented['mask']
+
+    cv2.imwrite(main_path +'/'+ output_folder_name +'/images/' + img, image)
+    cv2.imwrite(main_path +'/' + output_folder_name +'/labels/' + img, mask)
+
+  print("Results are saved in output directory.")
