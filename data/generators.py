@@ -4,7 +4,7 @@ import numpy as np
 import cv2, os
 import skimage.transform as trans
 import skimage.io as io
-
+from utils.preprocess import adjustData, pad, crop, threshold
 
 
 def trainGenerator(batch_size,train_path,image_folder,\
