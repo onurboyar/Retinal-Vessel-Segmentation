@@ -1,0 +1,14 @@
+{
+    "files":[
+        {"LOG_PATH": "./data/logs",
+	      "RESULT_PATH": "./data/test_results",
+	      "MODEL_PATH": "./data/models",
+	      "TRAIN_PATH": "./data/train",
+	      "VAL_PATH": "./data/test",
+	      "TEST_PATH": "./data/test",
+	      "TMP_TRAIN": "./data/tmp_train",
+        "TMP_TEST": "./data/tmp_test",
+	      "TMP_VAL": "./data/tmp_val",
+	      "TMP_RESULT": "./data/tmp_result"}
+        ]
+}
