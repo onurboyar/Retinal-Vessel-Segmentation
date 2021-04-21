@@ -1,16 +1,12 @@
-import os
-import shutil
-import skimage.io as io
-import skimage.transform as trans
-import cv2
-import matplotlib.pyplot as plt
-import pickle
-import time
-import logging
+import (os, argparse, shutil, cv2,
+        pickle, time, logging, gc)
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
+import skimage.io as io
+import skimage.transform as trans
+import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
@@ -20,7 +16,6 @@ from keras.optimizers import *
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from keras import backend as keras
 from tensorflow.keras.models import load_model as load_initial_model
-import gc
 
 from unet.attention_unet import AttentionUNet
 from unet.vanilla_unet import UNet
@@ -117,16 +112,37 @@ def train_once(save_name, num_train, num_test, initial_model_path,\
 
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--train_at_once", "-tao", help="--train_at_once=False allows you to \
+                          save models and predictions at every epoch. True is default. If True, \
+                          then your results and checkpoints are saved at the end.", type = bool, default = True)
+
+    parser.add_argument("--save_name", "-sn", help="Your experiment's name. It is related to\
+                          saved checkpoints, folders etc.", type = str, default = "hello_world")
+
+    parser.add_argument("--initial_model_path", "-initm", help="Previous checkpoints to load.", default = None)
+    parser.add_argument("--model_name", "-m", help="Which unet to use.", type=str, default = "vanilla")
+    parser.add_argument("--epochs", "-e", help="Number of epochs")
+    parser.add_argument("--train_batch", "-tb", help="Training batch size.", default = 3)
+    parser.add_argument("--val_batch", "-vb", help="Validation batch size.", default = 3)
+    parser.add_argument("--already_padded", "-ap", help="If your training/valiadion samples \
+                          in your related folder have already been padded, no need to pad again.", default = False)
+    args = parser.parse_args()
+
+
     train_sample_number = len(os.listdir(TRAIN_PATH + '/images'))
     test_sample_number  = len(os.listdir(TEST_PATH + '/images'))
 
-    SAVE_NAME = 'my_model'
-    INITIAL_MODEL_PATH = None
-    EPOCH = 1
+    if args.train_at_once:
 
-    train_once(SAVE_NAME, initial_model_path= INITIAL_MODEL_PATH, epoch= EPOCH, \
-               train_batch = 3, test_batch = 3, num_train = train_sample_number, \
-               num_test= test_sample_number)
+        train_once(save_name = args.save_name, initial_model_path = args.initial_model_path, \
+                   epoch= args.epochs, train_batch = args.train_batch, test_batch = args.val_batch, \
+                   model_name = args.model_name, already_padded = args.already_padded,\
+                   num_train = train_sample_number, num_test= test_sample_number)
+
+    elif not args.train_at_once:
+        pass
 
 
 
