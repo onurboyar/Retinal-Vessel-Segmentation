@@ -1,5 +1,4 @@
-import (os, argparse, shutil, cv2,
-        pickle, time, logging, gc)
+import os, argparse, shutil, cv2, pickle, time, logging, gc
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -121,7 +120,7 @@ if __name__ == "__main__":
     parser.add_argument("--save_name", "-sn", help="Your experiment's name. It is related to\
                           saved checkpoints, folders etc.", type = str, default = "hello_world")
 
-    parser.add_argument("--initial_model_path", "-initm", help="Previous checkpoints to load.", default = None)
+    parser.add_argument("--initial_model_path", "-initm", help="Previous checkpoints to load. If not, default is None.", default = None)
     parser.add_argument("--model_name", "-m", help="Which unet to use.", type=str, default = "vanilla")
     parser.add_argument("--epochs", "-e", help="Number of epochs")
     parser.add_argument("--train_batch", "-tb", help="Training batch size.", default = 3)
