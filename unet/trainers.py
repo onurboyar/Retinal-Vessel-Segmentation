@@ -44,30 +44,29 @@ def train_once(save_name, num_train, num_test, initial_model_path,\
           train_batch = 3, test_batch = 3, epoch = 5, already_padded = False,\
           model_name = "vanilla"):
 
-    if already_padded == False:
-        shutil.rmtree(TMP_TRAIN, ignore_errors=False, onerror=None)
-        os.mkdir(TMP_TRAIN)
-        os.mkdir(TMP_TRAIN + "/images")
-        os.mkdir(TMP_TRAIN + "/labels")
+    shutil.rmtree(TMP_TRAIN, ignore_errors=False, onerror=None)
+    os.mkdir(TMP_TRAIN)
+    os.mkdir(TMP_TRAIN + "/images")
+    os.mkdir(TMP_TRAIN + "/labels")
 
-        shutil.rmtree(TMP_TEST, ignore_errors=False, onerror=None)
-        os.mkdir(TMP_TEST)
-        os.mkdir(TMP_TEST + "/images")
-        os.mkdir(TMP_TEST + "/labels")
+    shutil.rmtree(TMP_TEST, ignore_errors=False, onerror=None)
+    os.mkdir(TMP_TEST)
+    os.mkdir(TMP_TEST + "/images")
+    os.mkdir(TMP_TEST + "/labels")
 
-        shutil.rmtree(TMP_VAL, ignore_errors=False, onerror=None)
-        os.mkdir(TMP_VAL)
-        os.mkdir(TMP_VAL + "/images")
-        os.mkdir(TMP_VAL + "/labels")
+    shutil.rmtree(TMP_VAL, ignore_errors=False, onerror=None)
+    os.mkdir(TMP_VAL)
+    os.mkdir(TMP_VAL + "/images")
+    os.mkdir(TMP_VAL + "/labels")
 
-        pad(TRAIN_PATH + '/images', TMP_TRAIN + '/images')
-        pad(TRAIN_PATH + '/labels', TMP_TRAIN + '/labels')
+    pad(TRAIN_PATH + '/images', TMP_TRAIN + '/images', already_padded)
+    pad(TRAIN_PATH + '/labels', TMP_TRAIN + '/labels', already_padded)
 
-        pad(TEST_PATH + '/images', TMP_TEST + '/images')
-        pad(TEST_PATH + '/labels', TMP_TEST + '/labels')
+    pad(TEST_PATH + '/images', TMP_TEST + '/images',already_padded)
+    pad(TEST_PATH + '/labels', TMP_TEST + '/labels',already_padded)
 
-        pad(VAL_PATH + '/images', TMP_VAL + '/images')
-        pad(VAL_PATH + '/labels', TMP_VAL + '/labels')
+    pad(VAL_PATH + '/images', TMP_VAL + '/images',already_padded)
+    pad(VAL_PATH + '/labels', TMP_VAL + '/labels',already_padded)
 
 
     data_gen_args = dict()
