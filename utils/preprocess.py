@@ -28,7 +28,8 @@ def pad(input_folder, output_folder,already_padded):
             if not already_padded:
                 tmp = cv2.copyMakeBorder(tmp.copy(),12,12,5,6,cv2.BORDER_CONSTANT,value=(0,0,0))
             io.imsave(output_folder + '/' + file, tmp)
-    print('Padding is done.')
+    if not already_padded:
+        print('Padding is done.')
 
 
 def crop(input_folder, output_folder):
