@@ -41,8 +41,8 @@ TMP_RESULT   = dirs["files"][0]["TMP_RESULT"]
 
 
 def train_once(save_name, num_train, num_test, initial_model_path,\
-          train_batch = 3, test_batch = 3, epoch = 5, already_padded = False,\
-          model_name = "vanilla"):
+               train_batch = 3, test_batch = 3, epoch = 5, already_padded = False,\
+               model_name = "vanilla"):
 
     shutil.rmtree(TMP_TRAIN, ignore_errors=False, onerror=None)
     os.mkdir(TMP_TRAIN)
@@ -103,8 +103,91 @@ def train_once(save_name, num_train, num_test, initial_model_path,\
 
     threshold(RESULT_PATH + '/' + save_name)
 
+    if os.path.isdir(RESULT_PATH + "/download"):
+        shutil.rmtree(RESULT_PATH + '/download', ignore_errors=False, onerror=None)
+
     os.mkdir(RESULT_PATH + "/download")
-    shutil.rmtree(RESULT_PATH + '/download', ignore_errors=False, onerror=None)
-    os.mkdir(RESULT_PATH + '/download')
+    #shutil.rmtree(RESULT_PATH + '/download', ignore_errors=False, onerror=None)
+    #os.mkdir(RESULT_PATH + '/download')
     set_order(RESULT_PATH + '/' + save_name, RESULT_PATH + '/download')
 
+
+
+def train_loop(save_name, num_train, num_test, initial_model_path,\
+               train_batch = 3, test_batch = 3, epoch = 5, already_padded = False,\
+               model_name = "vanilla"):
+
+
+    shutil.rmtree(TMP_TRAIN, ignore_errors=False, onerror=None)
+    os.mkdir(TMP_TRAIN)
+    os.mkdir(TMP_TRAIN + "/images")
+    os.mkdir(TMP_TRAIN + "/labels")
+
+    shutil.rmtree(TMP_TEST, ignore_errors=False, onerror=None)
+    os.mkdir(TMP_TEST)
+    os.mkdir(TMP_TEST + "/images")
+    os.mkdir(TMP_TEST + "/labels")
+
+    shutil.rmtree(TMP_VAL, ignore_errors=False, onerror=None)
+    os.mkdir(TMP_VAL)
+    os.mkdir(TMP_VAL + "/images")
+    os.mkdir(TMP_VAL + "/labels")
+
+    pad(TRAIN_PATH + '/images', TMP_TRAIN + '/images', already_padded)
+    pad(TRAIN_PATH + '/labels', TMP_TRAIN + '/labels', already_padded)
+
+    pad(TEST_PATH + '/images', TMP_TEST + '/images',already_padded)
+    pad(TEST_PATH + '/labels', TMP_TEST + '/labels',already_padded)
+
+    pad(VAL_PATH + '/images', TMP_VAL + '/images',already_padded)
+    pad(VAL_PATH + '/labels', TMP_VAL + '/labels',already_padded)
+
+
+    data_gen_args = dict()
+    train_generator = trainGenerator(train_batch, TMP_TRAIN, 'images', 'labels', data_gen_args, save_to_dir = None, target_size=(608,576))
+    test_generator = testGenerator2(test_batch, TMP_TEST, 'images', 'labels', data_gen_args, save_to_dir = None, target_size=(608,576))
+
+    for epoch in range(epochs):
+
+        if model_name == "vanilla":
+            model = UNet(input_size=(608,576,1))
+        elif model_name == "attention":
+            model = AttentionUNet(input_size=(608,576,1))
+
+        if epoch != 0:
+            model.load_weights(f'{MODEL_PATH}/{save_name +"_"+ str(epoch-1)}.hdf5')
+        else:
+            if initial_model_name != None:
+                model.load_weights(initial_model_path)
+
+
+        model_history = model.fit_generator(train_generator, steps_per_epoch=num_train//train_batch, \
+                                            epochs=1, callbacks=[model_checkpoint],\
+                                            validation_data=test_generator, validation_steps=num_test//test_batch)
+
+
+        log_file = open(LOG_PATH + "/log_{}.pkl".format(save_name + str(epoch)), "wb")#history file
+        pickle.dump(model_history.history, log_file)
+        log_file.close()
+
+        test_generator_2 = testGenerator(TMP_TEST, target_size=(608,576))
+        results = model.predict_generator(test_generator_2,verbose=1)
+
+
+        shutil.rmtree(TMP_RESULT, ignore_errors=False, onerror=None)
+        os.mkdir(TMP_RESULT)
+        saveResult_drive(TMP_RESULT, results)
+
+        os.mkdir(RESULT_PATH + '/' + save_name + str(epoch))
+        crop(TMP_RESULT, RESULT_PATH + '/' + save_name + str(epoch))
+
+        threshold(RESULT_PATH + '/' + save_name + str(epoch))
+
+        os.mkdir(RESULT_PATH + '/download' + "_"+save_name + str(epoch))
+        set_order(RESULT_PATH + '/' + save_name + str(epoch), RESULT_PATH + '/download' + "_"+save_name + str(epoch))
+
+        mean_dice_coef = mean_dice(TEST_PATH   + '/labels', 
+                                   RESULT_PATH + '/download_' + save_name + str(epoch))
+
+        print(f"\nMean dice coeff at epoch {epoch}: {mean_dice_coef}\n\n")
+        print("-"*20)

@@ -1,6 +1,6 @@
 import os, argparse, shutil, cv2, pickle, time, logging, gc, json
 from utils.file import get_dirs
-from unet.trainers import train_once
+from unet.trainers import train_once, train_loop
 
 
 dirs = get_dirs()
@@ -49,7 +49,11 @@ if __name__ == "__main__":
                    num_train = train_sample_number, num_test= test_sample_number)
 
     elif not args.train_at_once:
-        pass
+
+        train_loop(save_name = args.save_name, initial_model_path = args.initial_model_path, \
+                   epoch= args.epochs, train_batch = args.train_batch, test_batch = args.val_batch, \
+                   model_name = args.model_name, already_padded = args.already_padded,\
+                   num_train = train_sample_number, num_test= test_sample_number)
 
 
 
