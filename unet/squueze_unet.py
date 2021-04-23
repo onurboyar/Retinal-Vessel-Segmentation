@@ -51,27 +51,7 @@ from keras.losses import binary_crossentropy
 
 import gc
 
-def dice_coef(y_true, y_pred):
-  smooth = 0.0
-  y_true_f = keras.flatten(y_true)
-  y_pred_f = keras.flatten(y_pred)
-  intersection = keras.sum(y_true_f * y_pred_f)
-  return (2. * intersection + smooth) / (keras.sum(y_true_f) + keras.sum(y_pred_f) + smooth)
-
-def jacard(y_true, y_pred):
-
-  y_true_f = keras.flatten(y_true)
-  y_pred_f = keras.flatten(y_pred)
-  intersection = keras.sum ( y_true_f * y_pred_f)
-  union = keras.sum ( y_true_f + y_pred_f - y_true_f * y_pred_f)
-
-  return intersection/union
-
-def dice_coef_loss(y_true, y_pred):
-    return 1. - dice_coef(y_true, y_pred)
-
-def cross_entropy(p, q):
-	  return -sum([p[i]*log2(q[i]) for i in range(len(p))])
+from utils.metrics import dice_coef, jacard
 
 """## Squeeze U-Net Model"""
 
