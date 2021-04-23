@@ -21,11 +21,12 @@ def adjustData(img,mask,flag_multi_class,num_class):
     return (img,mask)
 
 
-def pad(input_folder, output_folder):
+def pad(input_folder, output_folder,already_padded):
     for file in sorted(os.listdir(input_folder)):
         if '.png' in file:
             tmp = cv2.imread(input_folder + '/' + file, 0)
-            tmp = cv2.copyMakeBorder(tmp.copy(),12,12,5,6,cv2.BORDER_CONSTANT,value=(0,0,0))
+            if not already_padded:
+                tmp = cv2.copyMakeBorder(tmp.copy(),12,12,5,6,cv2.BORDER_CONSTANT,value=(0,0,0))
             io.imsave(output_folder + '/' + file, tmp)
     print('Padding is done.')
 
