@@ -5,7 +5,7 @@ Successful segmentation of the retinal vessel segmentation has widely studied an
 
 ## Documentation
 
-Images are preprocessed (padding, normalizing etc.) in training function, so executing traininn files is enough. If you want to train [DRIVE: Digital Retinal Images for Vessel Extraction](https://drive.grand-challenge.org/) dataset,
+Images are preprocessed (padding, normalizing etc.) in training function, so executing training files is enough. If you want to train [DRIVE: Digital Retinal Images for Vessel Extraction](https://drive.grand-challenge.org/) dataset,
 
 ```bash
 python3 train_drive.py --train_at_once="True" \
