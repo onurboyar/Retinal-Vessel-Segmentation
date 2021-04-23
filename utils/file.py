@@ -45,11 +45,6 @@ def labelVisualize(num_class,color_dict,img):
     img_out = np.zeros(img.shape + (3,))
     for i in range(num_class):
         img_out[img == i,:] = color_dict[i]
-    return img_out / 255def labelVisualize(num_class,color_dict,img):
-    img = img[:,:,0] if len(img.shape) == 3 else img
-    img_out = np.zeros(img.shape + (3,))
-    for i in range(num_class):
-        img_out[img == i,:] = color_dict[i]
     return img_out / 255
 
 def saveResult(fold,k,save_path,npyfile,flag_multi_class = False,num_class = 2):
