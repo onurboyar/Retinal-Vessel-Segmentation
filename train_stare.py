@@ -23,7 +23,7 @@ if __name__ == "__main__":
                           saved checkpoints, folders etc.", type = str, default = "hello_world")
 
     parser.add_argument("--initial_model_path", "-initm", help="Previous checkpoints to load. If not, default is None.", default = None)
-
+    parser.add_argument("--model_name", "-m", help="Which unet to use.", type=str, default = "vanilla")
     parser.add_argument("--epochs", "-e", help="Number of epochs", type=int)
     parser.add_argument("--train_batch", "-tb", help="Training batch size.", default = 3, type=int)
     parser.add_argument("--val_batch", "-vb", help="Validation batch size.", default = 3,type=int)
@@ -43,7 +43,7 @@ if __name__ == "__main__":
                       test_sample_number = args.n_fold, \
                       initial_model_path = args.initial_model_path,\
                       k = args.n_fold, \
-                      show_samples = args.show_samples)
+                      show_samples = args.show_samples,model_name=args.model_name)
 
 
 
