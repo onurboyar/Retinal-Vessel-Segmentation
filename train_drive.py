@@ -30,9 +30,9 @@ if __name__ == "__main__":
 
     parser.add_argument("--initial_model_path", "-initm", help="Previous checkpoints to load. If not, default is None.", default = None)
     parser.add_argument("--model_name", "-m", help="Which unet to use.", type=str, default = "vanilla")
-    parser.add_argument("--epochs", "-e", help="Number of epochs")
-    parser.add_argument("--train_batch", "-tb", help="Training batch size.", default = 3)
-    parser.add_argument("--val_batch", "-vb", help="Validation batch size.", default = 3)
+    parser.add_argument("--epochs", "-e", help="Number of epochs", type=int)
+    parser.add_argument("--train_batch", "-tb", help="Training batch size.", default = 3, type=int)
+    parser.add_argument("--val_batch", "-vb", help="Validation batch size.", default = 3,type=int)
     parser.add_argument("--already_padded", "-ap", help="If your training/valiadion samples \
                           in your related folder have already been padded, no need to pad again.", default = False)
     args = parser.parse_args()
