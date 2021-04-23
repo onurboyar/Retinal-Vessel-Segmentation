@@ -1,0 +1,100 @@
+---
+title: "Retinal Image Segmentation with Excessive Data Augmentation"
+author: 
+- Enes Sadi Uysal
+- Şafak Bilici
+- Onur Boyar
+- Billur Selin Zaza
+- Yiğit Özgenç
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Introduction
+
+
+Medical Imaging is a fastly growing research area in the literature. It has become an essential part of the current health-care system. The success of the various stud'es resulted in concrete products that help medical experts to make decisions and help patients to have better health-care service. Medical images come in different forms. Some of these forms are X-ray, computed tomography (CT), magnetic resonance imaging (MRI), ultrasound imaging, Fundoscopic Images etc. The medical expert analyzes the targeted area within the one of these images to perform diagnosis. In order to make this process easier, segmentation of the regions that are meaningful for the task is important. In the image there can be separated regions involving the objects of the same class. The segmentation task is achieved by extracting the target class while ignoring the objects from other classes. There are various approaches to solve this segmentation problem. There are signal processing based approaches [], heuristic techniques [], Support Vector Machine based applications [], and there are also deep learning applications []. It is known that the success of the deep learning models relies on the input data volume. In supervised techniques, we also need the annotations of this input data. However, it is a very common problem to face with a lack of enough annotated images in the field of medical imaging. One of the specific areas in medical imaging that this problem appears is Retinal Vessel Images. 
+
+Retinal Image Segmentation is of great interest because of it's usage in diagnosis of the various diseases. It provides an information about not only the condition of the eyes but also the general health condition of the patient. Ophthalmologists can detect various diseases by inspecting the retinal vessel networks in fundoscopic images like hypertension, diabetes, vision threatening retinal vascular diseases. However, obscured details in the fundoscopic images makes the decision making process hard for the medical experts. Retinal Vessels do not have significant differences in appearance. Another challenge for the medical expert is to anaylze the micro vessels since they are one of the most obscured part of the image. These problems are due to the challenges of the retinal vessels. Apart from these problems, the quality of the input images are also questionable. Input images might be noisy and key information may have become very hard to extract in order to detect diseases. A mistake in that process may cause false positive or false negative diagnosis. The quality of the input image might be affected by the illumination, sensor noises, incorrect angle, type of the filter used in retinal fundus camera etc. 
+
+Successful segmentation of the retinal vessel segmentation has widely studied and it is still one of the hot research areas. Various different architectures are tailored for this specific problem and numerous existed deep learning architectures are used in order to perform the segmentation task. The scarcity of the annotated data pushed researchers to use data augmentation to the certain amount in order to avoid the overfitting problem. However, the usage of the data augmentation is limited in these studies. If data augmentation strategy can address the problems of the input data, successful segmentation model can be obtained. In our study, we are looking for the performance gains that can be obtained by the excessive data augmentation using U-Net architecture for retinal vessel segmentation problem. We use DRIVE dataset that has become one of the standard benchmarks in the retinal vessel segmentation studies.^[https://github.com/onurboyar/Retinal-Vessel-Segmentation] 
+
+![An example from DRIVE dataset.](/Users/boyaronur/Downloads/paper_image_2.png)
+
+## 2. Literature Review
+
+Segmentation techniques that are used for medical purposes can be separated into six major categories which are kernel based techniques, vessel tracking, mathematical morphology-based, multi-scale, model based, adaptive local thresholding and machine learning []. Deep Learning based applications are goes under the machine learning applications. Deep Learning architectures have shown great results in the field of medical image segmentation []. Fully Connected Networks (FCN) have been used in the image segmentation tasks with success for a long time. Other than FCN based applications, there are a lot of research about using the U-Net architecture for various image segmentation tasks in the literature. U-Net has an architecture similar to encoder-decoder architecture. In [], authors state that they used various data augmentation techniques in order to train the U-Net model. The U-Net architecture has made a substantial impact in the image segmentation domain. There are other architectures that use the idea of U-Net like MultiResU-Net [], Attention U-Net. Besides, there are also image segmentation models that are tailored to the specific problem like Retinal Vessel Segmentation. In [], authors propose the IterNet model that 
+
+<Literature Review for Data Augmentation techniques (already in project document) >
+
+As stated in [1], data augmentation is crucial when there is a shortage of the annotated data. In order to create a robust classifier, most biomedical image segmentation tasks rely heavily on data augmentation techniques. One of the most main challenges of Biomedical Imaging problems is lack of annotated data. The quality of the available data is not guaranteed as well. This phenomenon makes the training process challenging. It is very crucial to make the neural network to perform successful segmentation, it must learn to make segmentation when the input data has some deformations
+
+![Overlapped predicted (red) and ground-truth (gray) vessels.](/Users/boyaronur/Downloads/paper_image_1.jpeg){width=300px}
+
+## 3. Problem Definition & Proposed Model
+
+
+The problem is the segmentation of the retinal images with an input data that has quality problems. These problems occur due to the illumination, sensor noise, filters of the retinal camera, the input image angle, and other noises. Using the data with such defects limits the capability of the segmentation model. Most of the time the model is unable to segment the regions with noise due to the fact that model does not have enough information about those regions. Each image may come with different quality problems. Combining with the input image scarcity problem of the medical imaging problems, the problem at the hand becomes even more difficult. If one can identify the problems of the input images well, the quality of the segmentation model can be increased with the help of the data augmentation. Data augmentation techniques are helpful for three reasons. The first reason is that they are helpful because the input data is very scarce. Data augmentation techniques increase the input image size and provides the model some extra information to learn. The other reason is that by data augmentation we can recover some of the performance loss in the model that occurred due to the image quality. If the practitioner decides the data augmentation technique based on the problems of the input image the segmentation performance can be increased. The third reason is due to the segmentation model that is used. In our study, we used U-Net architecture that makes use of pooling operations. The model learns relatively lower from the corner and side parts of the input image. 
+
+Data augmentation strategies can address these three problems. In order the adress the third problem, rotated versions of the input images can be included to the dataset using various angles. In order to let the model learn more from the noisy images, data augmentation techniques that relies to the adding noise to the original image can be utilized. Noise data come from the normal distribution with mean 0 and standard deviation epsilon. If epsilon is chosen as 1, white noise is added to the input image. In our study we used augmentations with different epsilon values. Another technique which targets input pixels is dropout. In dropout data augmentation technique, pixels of the input image are set to zero in a random fashion. The portion of the pixel values to be set to zero is a parameter that needs to be defined. It is well-known that minor vessels are one of the hardest regions to segment. Figure 2 shows the predicted and ground truth vessels together. It can be seen that the majority of the incorrect segmentations occur at the minor vessels. An attempt to increase the success of the segmentation model might be to zoom to the these regions and add zoomed images to the dataset. Randomly cropping the input image with the random sizes might be another strategy here. Shifting and flipping of the input image are also two successful data augmentation techniques. In order to address the image quality problems that occurred due to the brightness of the input image, gamma correction technique is used. (optic diskin getirdiği sorunlar eklenebilir.) The full list of the data augmentation techniques are:
+
+- Rotation
+- Flipping
+- Zoom in / Zoom out
+- Adding Normal(0, $\epsilon$)
+- Elastic Deformations
+- Shifting
+- Cropping
+- Grid Distortion / Optical Distortion
+- Dropout
+- Histogram Equalization
+- Blurring
+- Sharpening
+
+Our methodology relies on the excessive usage of the aforementioned data augmentation techniques. Data Augmentation techniques provides multiple benefits in training. U-Net model is trained using original DRIVE dataset and the augmentation dataset together. DRIVE has become the most common standard benchmark in the Retinal Vessel Segmentation domain. The training is done by using binary cross-entropy loss. In our study we experimented with dice loss and the combination of binary cross-entropy loss and dice loss as well. Nevertheless, it is observed that the best results are obtained with using binary cross-entropy loss. In Table 1, the results from using binary cross-entropy loss are given.
+
+## 4. Results
+\begin{table}[ht]
+\caption{DRIVE dataset results.} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Case & AUC\ & Accuracy\ & Dice\ \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+U-Net & 0.9830 & 0.9681 & - \\ % inserting body of the table
+Residual UNet & 0.9779 & 0.9553 & - \\
+CcNet & 0.9678 & 0.9528 & - \\
+IterNet & 0.9816 & 0.9574 & - \\
+This Paper & 0.9848 & 0.9712 & 0.8255 \\ [1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+
+
+\begin{table}[ht]
+\caption{STARE dataset results.} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Case & AUC\ & Accuracy\ & Dice\ \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+U-Net & 0.9 & 0.9 & 0.9 \\ % inserting body of the table
+CcNet & 0.9 & 0.9 & 0.9 \\
+RV-GAN & 0.9 & 0.9 & 0.9 \\
+IterNet & 0.9 & 0.9 & 0.9 \\
+This Paper & 0.99 & 0.99 & 0.99 \\ [1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+
+## 5. Conclusion
+
+
+
