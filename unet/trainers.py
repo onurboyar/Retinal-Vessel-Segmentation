@@ -209,7 +209,7 @@ def train_loop(save_name, num_train, num_test, initial_model_path,\
 def train_kfold_stare(epoch, start, train_batch_size, \
                       test_batch_size, train_sample_number, \
                       test_sample_number, initial_model_path, \
-                      k=5,show_samples=False):
+                      k=5,show_samples=False, model_name = "vanilla"):
 
     assert 20 % k ==0, "Number of images divided by fold number must be integer."
     NOF_PLOTS = 0
@@ -252,11 +252,11 @@ def train_kfold_stare(epoch, start, train_batch_size, \
         data_gen_args = dict()
         train_generator = trainGenerator(train_batch_size,KFOLD_TEMP_TRAIN,\
                                          'images','labels',data_gen_args,\
-                                         save_to_dir = None, target_size = (608,704,1))
+                                         save_to_dir = None, target_size = (608,704))
 
         test_generator = testGenerator2(test_batch_size,KFOLD_TEMP_TEST,\
                                         'images','labels',data_gen_args,\
-                                        save_to_dir = None, target_size = (608,704,1))
+                                        save_to_dir = None, target_size = (608,704))
 
 
         if model_name == "vanilla":
@@ -277,7 +277,7 @@ def train_kfold_stare(epoch, start, train_batch_size, \
         pickle.dump(model_history.history, log_file)
         log_file.close()
 
-        test_generator_2 = testGenerator(KFOLD_TEMP_TEST, target_size = (608,704,1))
+        test_generator_2 = testGenerator(KFOLD_TEMP_TEST, target_size = (608,704))
         results = model.predict_generator(test_generator_2,k,verbose=1)
         saveResult(i,k,RESULTS_PATH,results)
 
