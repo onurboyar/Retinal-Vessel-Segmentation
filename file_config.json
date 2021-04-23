@@ -1,14 +1,19 @@
 {
     "files":[
-        {"LOG_PATH": "./data/logs",
+        {     "LOG_PATH": "./data/logs",
 	      "RESULT_PATH": "./data/test_results",
 	      "MODEL_PATH": "./data/models",
 	      "TRAIN_PATH": "./data/train",
 	      "VAL_PATH": "./data/test",
 	      "TEST_PATH": "./data/test",
 	      "TMP_TRAIN": "./data/tmp_train",
-        "TMP_TEST": "./data/tmp_test",
+              "TMP_TEST": "./data/tmp_test",
 	      "TMP_VAL": "./data/tmp_val",
-	      "TMP_RESULT": "./data/tmp_result"}
+	      "TMP_RESULT": "./data/tmp_result",
+	      "KFOLD_TEMP_TRAIN": "./kfold/temp_train",
+              "KFOLD_TEMP_TEST": "./kfold/temp_test",
+              "LOG_PATH_KFOLD": "./kfold/logs",
+              "CKPTS_PATH_KFOLD": "./kfold/checkpoints",
+              "RESULTS_PATH_KFOLD": "./kfold/results"}
         ]
 }
