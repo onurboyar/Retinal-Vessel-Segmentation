@@ -77,7 +77,7 @@ def apply_white_noise(input_path, output_path, sd):
     print("White noise results were saved given directory.")
 
 
- def apply_eqhisto(input_path, output_path):
+def apply_eqhisto(input_path, output_path):
 
      PROBLEM = "semantic_segmentation"
      ANNOTATION_MODE = "folders"
@@ -239,7 +239,7 @@ def apply_jpeg_compression(input_path, output_path, degrees, image_count):
     path = os.path.join(output_path, 'labels')
     os.mkdir(path)
 
-  for degree in degrees:
+    for degree in degrees:
       aug = ia.augmenters.JpegCompression(compression=degree)
       images_aug = aug.augment_images(images=images)
       for indx, i in enumerate(images_aug):
@@ -249,7 +249,7 @@ def apply_jpeg_compression(input_path, output_path, degrees, image_count):
     for indx, i in enumerate(labels_aug):
         imageio.imwrite(output_path + 'labels/' + str(degree) + '_' + str(indx) + '.png', i)
 
-  print("JPEG Compression results were saved given directory.")
+    print("JPEG Compression results were saved given directory.")
 
 
 def albumentation(output_folder_name, main_path, original_height, original_width, input_path):
