@@ -1,59 +1,17 @@
-# -*- coding: utf-8 -*-
-"""squueze-unet
-
-## Import Libraries
-"""
-
-from __future__ import print_function
-
-import os
-import skimage.io as io
-import skimage.transform as trans
-import shutil
-import cv2
-import matplotlib.pyplot as plt
-import pickle
-import time
-import glob
-
 import numpy as np
 import keras
-from keras.models import Model
-from keras.layers import Input, merge, Convolution2D, MaxPooling2D, UpSampling2D
-from keras.optimizers import Adam
-from keras.optimizers import SGD
-from keras.callbacks import ModelCheckpoint, LearningRateScheduler
-from keras.layers import Conv2D, MaxPooling2D, UpSampling2D, Dropout
-from keras.layers import concatenate, Conv2DTranspose, BatchNormalization
-from keras import backend as K
-
-from keras import backend as keras
-
-from keras.layers import Dropout
-
-from sklearn.externals import joblib
-import argparse
-from keras.callbacks import *
-import sys
-import theano
-import theano.tensor as T
-from keras import initializers
-from keras.layers import BatchNormalization
-import copy
 import tensorflow as tf
-
 from keras.models import *
 from keras.layers import *
-from keras.optimizers import *
+
+from keras.optimizers import Adam, SDG
+from keras.callbacks import ModelCheckpoint, LearningRateScheduler
+from keras import backend as K
 from tensorflow.keras.models import load_model as load_initial_model
-from keras.preprocessing.image import ImageDataGenerator
 from keras.losses import binary_crossentropy
 
-import gc
 
 from utils.metrics import dice_coef, jacard
-
-"""## Squeeze U-Net Model"""
 
 def fire_module(x, fire_id, squeeze=16, expand=64):
     f_name = "fire{0}/{1}"
@@ -69,14 +27,7 @@ def fire_module(x, fire_id, squeeze=16, expand=64):
 
 
 def SqueezeUNet(inputs, num_classes=None, deconv_ksize=3, dropout=0.5, activation='sigmoid'):
-    """SqueezeUNet is a implementation based in SqueezeNetv1.1 and unet for semantic segmentation
-    :param inputs: input layer.
-    :param num_classes: number of classes.
-    :param deconv_ksize: (width and height) or integer of the 2D deconvolution window.
-    :param dropout: dropout rate
-    :param activation: type of activation at the top layer.
-    :returns: SqueezeUNet model
-    """
+
     channel_axis = 1 if K.image_data_format() == 'channels_first' else -1
     if num_classes is None:
         num_classes = K.int_shape(inputs)[channel_axis]
@@ -133,6 +84,6 @@ def SqueezeUNet(inputs, num_classes=None, deconv_ksize=3, dropout=0.5, activatio
     #model.summary()
     model.compile(optimizer=Adam(lr = 1e-4), loss=binary_crossentropy, metrics = ['accuracy',dice_coef,jacard,tf.keras.metrics.MeanIoU(num_classes=2),
                                                                                       tf.keras.metrics.Precision(), tf.keras.metrics.Recall()])
-                                                                                      
+
     return model
 
