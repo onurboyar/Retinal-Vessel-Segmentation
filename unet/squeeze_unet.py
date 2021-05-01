@@ -82,8 +82,9 @@ def SqueezeUNet(inputs, num_classes=None, deconv_ksize=3, dropout=0.5, activatio
     x = Conv2D(num_classes, (1, 1), activation=activation)(x)
     model = Model(inputs, x)
     #model.summary()
-    model.compile(optimizer=Adam(lr = 1e-4), loss=binary_crossentropy, metrics = ['accuracy',dice_coef,jacard,tf.keras.metrics.MeanIoU(num_classes=2),
-                                                                                      tf.keras.metrics.Precision(), tf.keras.metrics.Recall()])
+    model.compile(optimizer=Adam(lr = 1e-4), loss=binary_crossentropy, \
+                  metrics = ['accuracy',dice_coef,jacard,tf.keras.metrics.MeanIoU(num_classes=2),\
+                             tf.keras.metrics.Precision(), tf.keras.metrics.Recall()])
 
     return model
 
