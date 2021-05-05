@@ -5,20 +5,48 @@ Successful segmentation of the retinal vessel segmentation has widely studied an
 
 ## Documentation
 
+### Path Structure
+
+### Training DRIVE
+
 Images are preprocessed (padding, normalizing etc.) in training function, so executing training files is enough. If you want to train [DRIVE: Digital Retinal Images for Vessel Extraction](https://drive.grand-challenge.org/) dataset follow these steps:
 
-- Since DRIVE dataset gives training images with ".tif" and labels with ".gif" extension, you must give ".png" files to model. Other image preprocessing is done at training loop (binary masking, RGB to gray scale etc.). Your images must be multiples of 32 (our choice is 608x576 since DRIVE has resolution 584x565). If your images are already padded, give --already_padded=True.
+- Since DRIVE dataset gives training images with ".tif" and labels with ".gif" extension, you must give ".png" files to model.
+- Other image preprocessing is done at training loop (binary masking, RGB to gray scale etc.).
+- Your images must be multiples of 32 (our choice is 608x576 since DRIVE has resolution 584x565). If your images have been already padded, give --already_padded=True.
+- If you want to save models at each epoch, give --train_at_once=False, else only the best model will be saved.
 
 
 ```bash
-python3 train_drive.py --train_at_once=True \
-                       --save_name="experiment 1" \
-                       --initial_model_path="/path/to/ckpts.hdf5" \
-                       --model_name="vanilla" \
-                       --epochs=15 \
-                       --train_batch=3 \
-                       --val_batch=3 \
-                       --already_padded=False
+python3 train_drive.py --train_at_once True \
+                       --save_name "experiment_1" \
+                       --initial_model_path "/path/to/ckpts.hdf5" \
+                       --model_name "vanilla" \
+                       --epochs 15 \
+                       --train_batch 3 \
+                       --val_batch 3 \
+                       --already_padded False
+```
+
+### Traning STARE
+
+If you want to train [STARE: STructured Analysis of the Retina](https://cecas.clemson.edu/~ahoover/stare/) dataset follow these steps:
+
+- Since STARE dataset gives training images with ".ppm" and labels with ".ppm" extension, you must give ".png" files to model.
+- STARE dataset doesn't give you test images, so we follow k-fold procedure while training.
+- STARE scripts doesn't contain padding script, so you must give padded images to training (examples are shown in [preprocess_for_DRIVE_dataset.ipynb](https://github.com/onurboyar/Retinal-Vessel-Segmentation/blob/main/notebooks/preprocess_for_DRIVE_dataset.ipynb)).
+- If you interrupt k-fold training, you can specify starting fold with --start, after.
+- If you specified starting fold, give --show_samples False.
+
+```bash
+python3 train_stare.pt --initial_model_path "/path/to/ckpts.hdf5"\
+                       --model_name "vanilla" \
+                       --epochs 15 \
+                       --train_batch 3 \
+                       --val_batch 3 \
+                       --n_fold 5 \
+                       --start_fold 5 \
+                       --show_samples False
 ```
 
 
