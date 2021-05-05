@@ -83,15 +83,23 @@ We used [imgaug](https://github.com/aleju/imgaug), [CLoDSA](https://github.com/j
 
 ## Results On DRIVE
 
-...                                                         | Accuracy       | AUC           | Mean Dice Coef    | Challenge Ranking     |
-:---                                                        | :---:          |    :----:     |          :---:    |  :---:                |
-Rotation (30*k) And Flipping                                | 0,970          | 0,971         | 0,809             | 621                   |
+...                                                         | Accuracy       | AUC           | Mean Dice Coef    | Challenge Ranking      |
+:---                                                        | :---:          |    :----:     |          :---:    |  :---:                 |
+Rotation (30*k) And Flipping                                | 0,970          | 0,971         | 0,809             | 621                    |
 \+ Zoom Out                                                  | 0,971          | 0,983         | 0,820             | 323                   |
 \+ White Noise/Elastic Deformations/Shift                    | 0,970          | 0,985         | 0,822             | 257                   |
 \+ Gamma Correction/Random Crop/Grid and Optical Distortion  | 0,971          | 0,983         | 0,824             | 171                   |
 \+ Blurring/Dropout/Eq. Histogram                            | 0,971          | **0,985**     | **0,826**         | **127**               |
 
 
+Method                   |     AUC       |     Accuracy     |
+:---                     |    :---:      |     :---:        |
+UNet (2018*)             |0,9752         |0,9555            | 
+Residual UNet (2018)     |0,9779         |0,9553            |      
+IterNet (2019)           |0,9816         |0,9571            |
+SUD-GAN (2020)           |0,9786         |0,9560            |
+RV-GAN (2020)            |*0,9887*       |*0,9790*          |
+Ours (2021)              |**0,9848**     |**0,9712**        |
 
 ## Authors
 - Enes Sadi Uysal
