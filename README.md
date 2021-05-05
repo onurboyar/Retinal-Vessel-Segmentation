@@ -5,10 +5,13 @@ Successful segmentation of the retinal vessel segmentation has widely studied an
 
 ## Documentation
 
-Images are preprocessed (padding, normalizing etc.) in training function, so executing training files is enough. If you want to train [DRIVE: Digital Retinal Images for Vessel Extraction](https://drive.grand-challenge.org/) dataset,
+Images are preprocessed (padding, normalizing etc.) in training function, so executing training files is enough. If you want to train [DRIVE: Digital Retinal Images for Vessel Extraction](https://drive.grand-challenge.org/) dataset follow these steps:
+
+- Since DRIVE dataset gives training images with ".tif" and labels with ".gif" extension, you must give ".png" files to model. Other image preprocessing is done at training loop (binary masking, RGB to gray scale etc.). Your images must be multiples of 32 (our choice is 608x576 since DRIVE has resolution 584x565). If your images are already padded, give --already_padded=True.
+
 
 ```bash
-python3 train_drive.py --train_at_once="True" \
+python3 train_drive.py --train_at_once=True \
                        --save_name="experiment 1" \
                        --initial_model_path="/path/to/ckpts.hdf5" \
                        --model_name="vanilla" \
