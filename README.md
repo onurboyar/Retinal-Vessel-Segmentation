@@ -7,6 +7,30 @@ Successful segmentation of the retinal vessel segmentation has widely studied an
 
 ### Path Structure
 
+#### DRIVE
+
+        "LOG_PATH": "./data/logs", (contains log file as pickle)
+	      "RESULT_PATH": "./data/test_results", (contains results as a folder named $save_name, final results are in here.
+                                               If you want to make a submission, use images in"/download" folder)
+	      "MODEL_PATH": "./data/models", (contains model checkpoints)
+	      "TRAIN_PATH": "./data/train",  (contains directories /images and /labels with related images)
+	      "VAL_PATH": "./data/test", (contains directories /images and /labels with related images) 
+	      "TEST_PATH": "./data/test", (contains directories /images and /labels with related images)
+	      "TMP_TRAIN": "./data/tmp_train", (contains padded training images and labels, script creates all automatically)
+        "TMP_TEST": "./data/tmp_test", (contains padded test images and labels, script creates all automatically)
+	      "TMP_VAL": "./data/tmp_val", (contains padded validation images and labels, script creates all automatically)
+	      "TMP_RESULT": "./data/tmp_result", (contains raw predictions, script creates all automatically)
+
+#### STARE
+        "TRAIN_PATH": "./data/train",  (contains directories /images and /labels with related images)
+	      "VAL_PATH": "./data/test", (contains directories /images and /labels with related images) 
+	      "TEST_PATH": "./data/test", (contains directories /images and /labels with related images)
+        "KFOLD_TEMP_TRAIN": "./kfold/temp_train", (contains padded training images and labels, script creates all automatically)
+        "KFOLD_TEMP_TEST": "./kfold/temp_test", (contains padded test images and labels, script creates all automatically)
+        "LOG_PATH_KFOLD": "./kfold/logs", (contains log file as pickle)
+        "CKPTS_PATH_KFOLD": "./kfold/checkpoints", (contains model checkpoints)
+        "RESULTS_PATH_KFOLD": "./kfold/results" (contains results as a folder named $save_name, final results are in here)
+
 ### Training DRIVE
 
 Images are preprocessed (padding, normalizing etc.) in training function, so executing training files is enough. If you want to train [DRIVE: Digital Retinal Images for Vessel Extraction](https://drive.grand-challenge.org/) dataset follow these steps:
