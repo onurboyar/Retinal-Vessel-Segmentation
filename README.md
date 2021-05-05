@@ -79,6 +79,8 @@ python3 train_stare.pt --initial_model_path "/path/to/ckpts.hdf5"\
 
 ## Augmentations
 
+![test image size](/assets/augmentations.png){:height="90%" width="90%"}
+
 We used [imgaug](https://github.com/aleju/imgaug), [CLoDSA](https://github.com/joheras/CLoDSA), [albumentations](https://github.com/albumentations-team/albumentations), [imagecorruptions](https://github.com/bethgelab/imagecorruptions) libraries for excessive augmentations. Before using augmentation scripts, run setup_augmentation.sh file "/augmentations". Since we used diverse augmentation techniques, we couldn't provide arguments for python files to augmentations. We provide this diverse augmentation techniques in methods.py file, you must edit augmentation_main.py file before you run.
 
 ## Results On DRIVE
