@@ -101,6 +101,8 @@ SUD-GAN (2020)           |0,9786         |0,9560            |
 RV-GAN (2020)            |*0,9887*       |*0,9790*          |
 Ours (2021)              |**0,9848**     |**0,9712**        |
 
+\* UNet was proposed in 2015, DRIVE results in 2018.
+
 ## Authors
 - Enes Sadi Uysal
 - M. Şafak Bilici
