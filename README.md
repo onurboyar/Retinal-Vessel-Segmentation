@@ -86,10 +86,12 @@ We used [imgaug](https://github.com/aleju/imgaug), [CLoDSA](https://github.com/j
 ...                                                         | Accuracy       | AUC           | Mean Dice Coef    | Challenge Ranking     |
 :---                                                        | :---:          |    :----:     |          :---:    |  :---:                |
 Rotation (30*k) And Flipping                                | 0,970          | 0,971         | 0,809             | 621                   |
-+ Zoom Out                                                  | 0,971          | 0,983         | 0,820             | 323                   |
-+ White Noise/Elastic Deformations/Shift                    | 0,970          | 0,985         | 0,822             | 257                   |
-+ Gamma Correction/Random Crop/Grid and Optical Distortion  | 0,971          | 0,983         | 0,824             | 171                   |
-+ Blurring/Dropout/Eq. Histogram                            | 0,971          | **0,985**     | **0,826**         | **127**               |
+\+ Zoom Out                                                  | 0,971          | 0,983         | 0,820             | 323                   |
+\+ White Noise/Elastic Deformations/Shift                    | 0,970          | 0,985         | 0,822             | 257                   |
+\+ Gamma Correction/Random Crop/Grid and Optical Distortion  | 0,971          | 0,983         | 0,824             | 171                   |
+\+ Blurring/Dropout/Eq. Histogram                            | 0,971          | **0,985**     | **0,826**         | **127**               |
+
+
 
 ## Authors
 - Enes Sadi Uysal
