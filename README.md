@@ -79,7 +79,17 @@ python3 train_stare.pt --initial_model_path "/path/to/ckpts.hdf5"\
 
 ## Augmentations
 
-We used [imgaug](https://github.com/aleju/imgaug), [CLoDSA](https://github.com/joheras/CLoDSA), [albumentations](https://github.com/albumentations-team/albumentations), [imagecorruptions](https://github.com/bethgelab/imagecorruptions) libraries for excessive augmentations. Before using augmentation scripts, run setup_augmentation.sh file "/augmentations". Since we used diverse augmentation techniques, we couldn't provide arguments for python files to augmentations. We provide this diverse augmentation techniques in methods.py file, you must edit augmentation_main.py file before you run. 
+We used [imgaug](https://github.com/aleju/imgaug), [CLoDSA](https://github.com/joheras/CLoDSA), [albumentations](https://github.com/albumentations-team/albumentations), [imagecorruptions](https://github.com/bethgelab/imagecorruptions) libraries for excessive augmentations. Before using augmentation scripts, run setup_augmentation.sh file "/augmentations". Since we used diverse augmentation techniques, we couldn't provide arguments for python files to augmentations. We provide this diverse augmentation techniques in methods.py file, you must edit augmentation_main.py file before you run.
+
+## Results On DRIVE
+
+...                                                         | Accuracy       | AUC           | Mean Dice Coef    | Challenge Ranking     |
+:---                                                        | :---:          |    :----:     |          :---:    |  :---:                |
+Rotation (30*k) And Flipping                                | 0,970          | 0,971         | 0,809             | 621                   |
++ Zoom Out                                                  | 0,971          | 0,983         | 0,820             | 323                   |
++ White Noise/Elastic Deformations/Shift                    | 0,970          | 0,985         | 0,822             | 257                   |
++ Gamma Correction/Random Crop/Grid and Optical Distortion  | 0,971          | 0,983         | 0,824             | 171                   |
++ Blurring/Dropout/Eq. Histogram                            | 0,971          | **0,985**     | **0,826**         | **127**               |
 
 ## Authors
 - Enes Sadi Uysal
