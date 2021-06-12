@@ -2,6 +2,8 @@
 
 Successful segmentation of the retinal vessel segmentation has widely studied and it is still one of the hot research areas. Various different architectures are tailored for this specific problem and numerous existed deep learning architectures are used in order to perform the segmentation task. The scarcity of the annotated data pushed researchers to use data augmentation to the certain amount in order to avoid the overfitting problem. However, the usage of the data augmentation is limited in these studies. If data augmentation strategy can address the problems of the input data, successful segmentation model can be obtained. In our study, we are looking for the performance gains that can be obtained by the excessive data augmentation using U-Net architecture for retinal vessel segmentation problem. We use DRIVE and STARE dataset that has become one of the standard benchmarks in the retinal vessel segmentation studies.
 
+This repository includes the implementation of our paper. You can acces the paper via the following link: https://arxiv.org/abs/2105.09365
+
 
 ## Documentation
 
