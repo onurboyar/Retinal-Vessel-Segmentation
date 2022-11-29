@@ -8,6 +8,8 @@ Successful segmentation of the retinal vessel segmentation has widely studied an
 This repository includes the implementation of our paper. You can acces the paper via the following link: https://arxiv.org/abs/2105.09365
 
 
+Please note that .py files needs to be used to run our model. Notebooks are provided as additional sources.
+
 ## Documentation
 
 ### Path Structure
